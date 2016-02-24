@@ -1,66 +1,64 @@
 public class AccountTransaction {
 
-	String date;
-	String type;
-	double amount;
-	
-	//Blank constructor
+	AccountTransactionData data = new AccountTransactionData();
+
+	/** Blank constructor. */
 	public AccountTransaction()
 	{
-		this.date = "";
-		this.type = "";	
-		this.amount = 0;
+		this.data.date = "";
+		this.data.type = "";	
+		this.data.amount = 0;
 		
 	}
 	
-	//Constructor with details
+	/** Constructor with details. */
 	public AccountTransaction(String date, String type, double amount)
 	{
-		this.date = date;
-		this.type = type;
+		this.data.date = date;
+		this.data.type = type;
 		
 		
-		this.amount = amount;
+		this.data.amount = amount;
 		
 	}
 	
-	//Accessor methods
+	/** Accessor methods. */
 	public String getDate()
 	{
-		return this.date;
+		return this.data.date;
 	}
 	
 	public String getType()
 	{
-		return this.type;
+		return this.data.type;
 	}
 
 	public double getAmount()
 	{
-		return this.amount;
+		return this.data.amount;
 	}
 
-	//mutator methods
+	/** Mutator methods. */
 	public void setDate(String date)
 	{
-		this.date = date;
+		this.data.date = date;
 	}
 	
 	public void setType(String type)
 	{
-		this.type = type;
+		this.data.type = type;
 	}
 	
 	public void setAmount(double amount)
 	{
-		this.amount = amount;
+		this.data.amount = amount;
 	}
 	
 	public String toString()
 	{
-		return  "\n" + "Date = " + this.date + "\n"
-				+ "Type = " + this.type + "\n"
-				+ "Amount = " + this.amount + "\n";
+		return  "\n" + "Date = " + this.data.date + "\n"
+				+ "Type = " + this.data.type + "\n"
+				+ "Amount = " + this.data.amount + "\n";
 			
 	}
 	

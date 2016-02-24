@@ -3,12 +3,10 @@ import java.util.ArrayList;
 public class CustomerAccount  {
    
 	String number;
-	//test
-	String test;
 	double balance;
 	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 
-	//Blank Constructor
+	/** Blank Constructor. */
 	public CustomerAccount()
 	{
 		this.number = "";
@@ -16,7 +14,7 @@ public class CustomerAccount  {
 		this.transactionList = null;
 	}
 	
-	//Constructor with Details
+	/** Constructor with Details. */
 	public CustomerAccount(String number, double balance, ArrayList<AccountTransaction> transactionList)
 	{
 		this.number = number;
@@ -24,7 +22,7 @@ public class CustomerAccount  {
 		this.transactionList = transactionList;
 	}
 	
-	//Accessor methods
+	/** Accessor methods. */
 	
 	public String getNumber()
 	{
@@ -44,7 +42,7 @@ public class CustomerAccount  {
 		return this.transactionList;
 	}
 
-	//Mutator methods
+	/** Mutator methods. */
 	public void setNumber(String number)
 	{
 		this.number = number;

@@ -11,7 +11,7 @@ public class Customer {
 	
 	ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount> ();
 
-	//Blank constructor
+	/** Blank constructor. */
 	public Customer()
 	{
 		this.PPS = "";
@@ -23,7 +23,7 @@ public class Customer {
 		this.accounts = null;
 	}
 	
-	//Constructor with details
+	/** Constructor with details. */
 	public Customer(String PPS, String surname, String firstName, String DOB, String customerID, String password, ArrayList<CustomerAccount> accounts)
 	{
 		this.PPS = PPS;
@@ -35,7 +35,7 @@ public class Customer {
 		this.accounts = accounts;
 	}
 	
-	//Accessor methods
+	/** Accessor methods. */
 	public String getPPS()
 	{
 		return this.PPS;
@@ -71,7 +71,7 @@ public class Customer {
 		return this.accounts;
 	}
 	
-	//mutator methods
+	/** Mutator methods. */
 	public void setPPS(String PPS)
 	{
 		this.PPS = PPS;
