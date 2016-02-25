@@ -23,7 +23,7 @@ public class Menu extends JFrame implements MenuInterface{
 	JLabel customerIDLabel, passwordLabel;
 	Container content;
 	Customer e;
-	String 	PPS,firstName,surname,DOB,CustomerID;
+//	String 	PPS,firstName,surname,DOB,CustomerID;
 
 	public static void main(String[] args) {
 		MenuInterface driver = new Menu();
@@ -62,13 +62,6 @@ public class Menu extends JFrame implements MenuInterface{
 						
 						
 						private void addCustomer() {
-							PPS = pPSTextField.getText();
-							firstName = firstNameTextField.getText();
-							surname = surnameTextField.getText();
-							DOB = dOBTextField.getText();
-							password = "";
-							CustomerID = "ID"+PPS ;
-
 							newUserGui.getAddCustomerButton().addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									innerFrame.dispose();
@@ -81,9 +74,10 @@ public class Menu extends JFrame implements MenuInterface{
 											loop = false;
 									}
 									ArrayList<CustomerAccount> accounts = new ArrayList<CustomerAccount> ();
-									Customer customer = new Customer(PPS, surname, firstName, DOB, CustomerID, password, accounts);
+									Customer customer = new Customer(pPSTextField.getText().toString(), surnameTextField.getText().toString(), 
+											firstNameTextField.getText().toString(), dOBTextField.getText().toString(), "ID"+pPSTextField.getText().toString(), password, accounts);
 									customerList.add(customer);
-									JOptionPane.showMessageDialog(frameMain, "CustomerID = " + CustomerID +"\n Password = " + password  ,"Customer created.",  JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(frameMain, "CustomerID = " + "ID"+pPSTextField.getText().toString() +"\n Password = " + password  ,"Customer created.",  JOptionPane.INFORMATION_MESSAGE);
 									menuStart();
 									frameMain.dispose();
 								}
