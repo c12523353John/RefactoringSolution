@@ -3,20 +3,23 @@ import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-public class UserPanelGui {
+public class MainGui {
 	JPanel userTypePanel, continuePanel;
 	JRadioButton radioButton;
 	JButton continueButton;
 	final ButtonGroup userType = new ButtonGroup();
 
-	public UserPanelGui() {
-		initComponents();
+	public MainGui() {
+		initMainComponents();
 	}
 
-	private void initComponents() {
+	private void initMainComponents() {
 		
 		userTypePanel = new JPanel();
 		userTypePanel.add(radioButton = new JRadioButton("Existing Customer"));
@@ -35,10 +38,7 @@ public class UserPanelGui {
 		continueButton = new JButton("Continue");
 		continuePanel.add(continueButton);
 
-//		Container content = frameMain.getContentPane();
-//		content.setLayout(new GridLayout(2, 1));
-//		content.add(userTypePanel);
-//		content.add(continuePanel);
+		
 	}
 	
 	public JPanel getUserTypePanel() {
@@ -76,7 +76,5 @@ public class UserPanelGui {
 	public void setContinuePanel(JPanel continuePanel) {
 		this.continuePanel = continuePanel;
 	}
-	
-	
-	
+		
 }

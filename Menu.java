@@ -17,22 +17,18 @@ public class Menu extends JFrame implements MenuInterface{
 	private String password;
 	private Customer customer;
 	private CustomerAccount acc = new CustomerAccount();
-	JFrame frameMain, frame1;
+	JFrame frameMain, innerFrame;
 	JLabel firstNameLabel, surnameLabel, pPPSLabel, dOBLabel;
 	JTextField firstNameTextField, surnameTextField, pPSTextField, dOBTextField, customerIDTextField, passwordTextField;
 	JLabel customerIDLabel, passwordLabel;
 	Container content;
 	Customer e;
-	JPanel buttonPanel;
-	JButton addCustomerButton;
 	String 	PPS,firstName,surname,DOB,CustomerID;
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		MenuInterface driver = new Menu();
 		driver.menuStart();
 	}
-
 
 	@Override
 	public void menuStart()
@@ -41,53 +37,29 @@ public class Menu extends JFrame implements MenuInterface{
 		  if they are a new customer, or will ask them to log in if they are an existing customer or admin.*/
 
 		initFrame();
-		UserPanelGui gui = new UserPanelGui();
+		MainGui mainGui = new MainGui();
+		NewUserGui newUserGui = new NewUserGui();
 		Container content = frameMain.getContentPane();
 		content.setLayout(new GridLayout(2, 1));
-		content.add(gui.getUserTypePanel());
-		content.add(gui.getContinuePanel());
+		content.add(mainGui.getUserTypePanel());
+		content.add(mainGui.getContinuePanel());
 
-		gui.getContinueButton().addActionListener(new ActionListener(  ) {
+		mainGui.getContinueButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				String user = gui.getUserType().getSelection().getActionCommand(  );
+				String user = mainGui.getUserType().getSelection().getActionCommand(  );
 
 				//if user selects NEW CUSTOMER--------------------------------------------------------------------------------------
 				if("New Customer".equals(user)) {
 					frameMain.dispose();		
-					frame1 = new JFrame("Create New Customer");
-					frame1.setSize(400, 300);
-					frame1.setLocation(200, 200);
-					frame1.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent we) { System.exit(0); }
-					});
-					Container content = frame1.getContentPane();
+					initInnerFrame();
+					Container content = innerFrame.getContentPane();
 					content.setLayout(new BorderLayout());
 
-					firstNameLabel = new JLabel("First Name:", SwingConstants.RIGHT);
-					surnameLabel = new JLabel("Surname:", SwingConstants.RIGHT);
-					pPPSLabel = new JLabel("PPS Number:", SwingConstants.RIGHT);
-					dOBLabel = new JLabel("Date of birth", SwingConstants.RIGHT);
-					firstNameTextField = new JTextField(20);
-					surnameTextField = new JTextField(20);
-					pPSTextField = new JTextField(20);
-					dOBTextField = new JTextField(20);
-					JPanel panel = new JPanel(new GridLayout(6, 2));
-					panel.add(firstNameLabel);
-					panel.add(firstNameTextField);
-					panel.add(surnameLabel);
-					panel.add(surnameTextField);
-					panel.add(pPPSLabel);
-					panel.add(pPSTextField);
-					panel.add(dOBLabel);
-					panel.add(dOBTextField);
-
-					buttonPanel = new JPanel();
-					addCustomerButton = new JButton("Add");
-
-					addCustomerButton.addActionListener(new ActionListener() {
+					newUserGui.getAddCustomerButton().addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							addCustomer();	
 						}
+						
 						
 						private void addCustomer() {
 							PPS = pPSTextField.getText();
@@ -97,9 +69,9 @@ public class Menu extends JFrame implements MenuInterface{
 							password = "";
 							CustomerID = "ID"+PPS ;
 
-							addCustomerButton.addActionListener(new ActionListener() {
+							newUserGui.getAddCustomerButton().addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									frame1.dispose();
+									innerFrame.dispose();
 									boolean loop = true;
 									while(loop){
 										password = JOptionPane.showInputDialog(frameMain, "Enter 7 character Password;");
@@ -121,16 +93,16 @@ public class Menu extends JFrame implements MenuInterface{
 					JButton cancel = new JButton("Cancel");					
 					cancel.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							frame1.dispose();
+							innerFrame.dispose();
 							menuStart();
 						}
 					});
 
-					buttonPanel.add(addCustomerButton);
-					buttonPanel.add(cancel);
-					content.add(panel, BorderLayout.CENTER);
-					content.add(buttonPanel, BorderLayout.SOUTH);
-					frame1.setVisible(true);		
+					newUserGui.getButtonPanel().add(newUserGui.addCustomerButton);
+					newUserGui.getButtonPanel().add(cancel);
+					content.add(newUserGui.getPanel(), BorderLayout.CENTER);
+					content.add(newUserGui.getButtonPanel(), BorderLayout.SOUTH);
+					innerFrame.setVisible(true);		
 				}
 				
 				//------------------------------------------------------------------------------------------------------------------
@@ -147,7 +119,7 @@ public class Menu extends JFrame implements MenuInterface{
 							if (reply == JOptionPane.YES_OPTION) {
 								loop = true;
 							} else if(reply == JOptionPane.NO_OPTION) {
-								frame1.dispose();
+								innerFrame.dispose();
 								loop = false;
 								loop2 = false;
 								menuStart();
@@ -163,7 +135,7 @@ public class Menu extends JFrame implements MenuInterface{
 						if(!"admin11".equals(adminPassword)) {
 							int reply  = JOptionPane.showConfirmDialog(null, null, "Incorrect Password. Try again?", JOptionPane.YES_NO_OPTION);
 							if(reply == JOptionPane.NO_OPTION){
-								frame1.dispose();
+								innerFrame.dispose();
 								loop2 = false;
 								menuStart();
 							}
@@ -175,7 +147,7 @@ public class Menu extends JFrame implements MenuInterface{
 					}
 
 					if(cont) {
-						frame1.dispose();
+						innerFrame.dispose();
 						loop = false;
 						admin();					    
 					}					    
@@ -240,6 +212,15 @@ public class Menu extends JFrame implements MenuInterface{
 				}
 				//-----------------------------------------------------------------------------------------------------------------------
 			}
+
+			private void initInnerFrame() {
+				innerFrame = new JFrame("Create New Customer");
+				innerFrame.setSize(400, 300);
+				innerFrame.setLocation(200, 200);
+				innerFrame.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent we) { System.exit(0); }
+				});
+			}
 		}); frameMain.setVisible(true);	
 	}
 
@@ -258,67 +239,20 @@ public class Menu extends JFrame implements MenuInterface{
 		dispose();
 		initFrame();     
 		frameMain.setVisible(true);
-
-		JPanel deleteCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton deleteCustomer = new JButton("Delete Customer");	
-		deleteCustomer.setPreferredSize(new Dimension(250, 20));
-		deleteCustomerPanel.add(deleteCustomer);
-
-		JPanel deleteAccountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton deleteAccount = new JButton("Delete Account");
-		deleteAccount.setPreferredSize(new Dimension(250, 20));	
-		deleteAccountPanel.add(deleteAccount);
-
-		JPanel bankChargesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton bankChargesButton = new JButton("Apply Bank Charges");
-		bankChargesButton.setPreferredSize(new Dimension(250, 20));	
-		bankChargesPanel.add(bankChargesButton);
-
-		JPanel interestPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton interestButton = new JButton("Apply Interest");
-		interestPanel.add(interestButton);
-		interestButton.setPreferredSize(new Dimension(250, 20));
-
-		JPanel editCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton editCustomerButton = new JButton("Edit existing Customer");
-		editCustomerPanel.add(editCustomerButton);
-		editCustomerButton.setPreferredSize(new Dimension(250, 20));
-
-		JPanel navigatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton navigateButton = new JButton("Navigate Customer Collection");
-		navigatePanel.add(navigateButton);
-		navigateButton.setPreferredSize(new Dimension(250, 20));
-
-		JPanel summaryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton summaryButton = new JButton("Display Summary Of All Accounts");
-		summaryPanel.add(summaryButton);
-		summaryButton.setPreferredSize(new Dimension(250, 20));
-
-		JPanel accountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton accountButton = new JButton("Add an Account to a Customer");
-		accountPanel.add(accountButton);
-		accountButton.setPreferredSize(new Dimension(250, 20));
-
-		JPanel returnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton returnButton = new JButton("Exit Admin Menu");
-		returnPanel.add(returnButton);
-
-		JLabel label1 = new JLabel("Please select an option");
-
+		NewAdminGui newAdminGui = new NewAdminGui();
 		content = frameMain.getContentPane();
 		content.setLayout(new GridLayout(9, 1));
-		content.add(label1);
-		content.add(accountPanel);
-		content.add(bankChargesPanel);
-		content.add(interestPanel);
-		content.add(editCustomerPanel);
-		content.add(navigatePanel);
-		content.add(summaryPanel);	
-		content.add(deleteCustomerPanel);
-		//	content.add(deleteAccountPanel);
-		content.add(returnPanel);
+		content.add(newAdminGui.getLabel1());
+		content.add(newAdminGui.getAccountPanel());
+		content.add(newAdminGui.getBankChargesPanel());
+		content.add(newAdminGui.getInterestPanel());
+		content.add(newAdminGui.getEditCustomerPanel());
+		content.add(newAdminGui.getNavigatePanel());
+		content.add(newAdminGui.getSummaryPanel());	
+		content.add(newAdminGui.getDeleteCustomerPanel());
+		content.add(newAdminGui.getReturnPanel());
 
-		bankChargesButton.addActionListener(new ActionListener(  ) {
+		newAdminGui.getBankChargesButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
 				boolean found = false;
@@ -350,12 +284,7 @@ public class Menu extends JFrame implements MenuInterface{
 							}
 						} else {
 							frameMain.dispose();
-							frameMain = new JFrame("Administrator Menu");
-							frameMain.setSize(400, 300);
-							frameMain.setLocation(200, 200);
-							frameMain.addWindowListener(new WindowAdapter() {
-								public void windowClosing(WindowEvent we) { System.exit(0); }
-							});          
+							initFrame();          
 							frameMain.setVisible(true);
 
 							JComboBox<String> box = new JComboBox<String>();
@@ -422,7 +351,7 @@ public class Menu extends JFrame implements MenuInterface{
 			}		
 		});
 
-		interestButton.addActionListener(new ActionListener(  ) {
+		newAdminGui.getInterestButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
 				boolean found = false;
@@ -455,12 +384,7 @@ public class Menu extends JFrame implements MenuInterface{
 							}
 						} else {
 							frameMain.dispose();
-							frameMain = new JFrame("Administrator Menu");
-							frameMain.setSize(400, 300);
-							frameMain.setLocation(200, 200);
-							frameMain.addWindowListener(new WindowAdapter() {
-								public void windowClosing(WindowEvent we) { System.exit(0); }
-							});          
+							initFrame();       
 							frameMain.setVisible(true);
 
 							JComboBox<String> box = new JComboBox<String>();
@@ -531,7 +455,7 @@ public class Menu extends JFrame implements MenuInterface{
 			}	
 		});
 
-		editCustomerButton.addActionListener(new ActionListener() {
+		newAdminGui.getEditCustomerButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				boolean loop = true;
 				boolean found = false;
@@ -649,7 +573,7 @@ public class Menu extends JFrame implements MenuInterface{
 				}}
 		});
 
-		summaryButton.addActionListener(new ActionListener(  ) {
+		newAdminGui.getSummaryButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				frameMain.dispose();
 				frameMain = new JFrame("Summary of Transactions");
@@ -704,7 +628,7 @@ public class Menu extends JFrame implements MenuInterface{
 			}	
 		});
 
-		navigateButton.addActionListener(new ActionListener() {
+		newAdminGui.getNavigateButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				frameMain.dispose();
 
@@ -852,7 +776,7 @@ public class Menu extends JFrame implements MenuInterface{
 			}
 		});
 
-		accountButton.addActionListener(new ActionListener(  ) {
+		newAdminGui.getAccountButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				frameMain.dispose();
 				if(customerList.isEmpty()) {
@@ -922,7 +846,7 @@ public class Menu extends JFrame implements MenuInterface{
 			}
 		});		
 
-		deleteCustomer.addActionListener(new ActionListener(  ) {
+		newAdminGui.deleteCustomer.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean found = true, loop = true;
 				if(customerList.isEmpty()) {
@@ -959,7 +883,7 @@ public class Menu extends JFrame implements MenuInterface{
 			}
 		});		
 
-		deleteAccount.addActionListener(new ActionListener(  ) {
+		newAdminGui.deleteAccount.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				boolean found = true, loop = true;
 					Object customerID = JOptionPane.showInputDialog(frameMain, "Customer ID of Customer from which you wish to delete an account");
@@ -983,7 +907,7 @@ public class Menu extends JFrame implements MenuInterface{
 					}
 				}
 		});		
-		returnButton.addActionListener(new ActionListener(  ) {
+		newAdminGui.returnButton.addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				frameMain.dispose();
 				menuStart();				
