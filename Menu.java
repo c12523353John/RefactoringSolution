@@ -33,49 +33,23 @@ public class Menu extends JFrame implements MenuInterface{
 		driver.menuStart();
 	}
 
-	/* (non-Javadoc)
-	 * @see MenuInterface#menuStart()
-	 */
+
 	@Override
 	public void menuStart()
 	{
 		/*The menuStart method asks the user if they are a new customer, an existing customer or an admin. It will then start the create customer process
 		  if they are a new customer, or will ask them to log in if they are an existing customer or admin.*/
 
-		frameMain = new JFrame("User Type");
-		frameMain.setSize(400, 300);
-		frameMain.setLocation(200, 200);
-		frameMain.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) { System.exit(0); }
-		});
-
-		JPanel userTypePanel = new JPanel();
-		final ButtonGroup userType = new ButtonGroup();
-		JRadioButton radioButton;
-		userTypePanel.add(radioButton = new JRadioButton("Existing Customer"));
-		radioButton.setActionCommand("Customer");
-		userType.add(radioButton);
-
-		userTypePanel.add(radioButton = new JRadioButton("Administrator"));
-		radioButton.setActionCommand("Administrator");
-		userType.add(radioButton);
-
-		userTypePanel.add(radioButton = new JRadioButton("New Customer"));
-		radioButton.setActionCommand("New Customer");
-		userType.add(radioButton);
-
-		JPanel continuePanel = new JPanel();
-		JButton continueButton = new JButton("Continue");
-		continuePanel.add(continueButton);
-
+		initFrame();
+		UserPanelGui gui = new UserPanelGui();
 		Container content = frameMain.getContentPane();
 		content.setLayout(new GridLayout(2, 1));
-		content.add(userTypePanel);
-		content.add(continuePanel);
+		content.add(gui.getUserTypePanel());
+		content.add(gui.getContinuePanel());
 
-		continueButton.addActionListener(new ActionListener(  ) {
+		gui.getContinueButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
-				String user = userType.getSelection().getActionCommand(  );
+				String user = gui.getUserType().getSelection().getActionCommand(  );
 
 				//if user selects NEW CUSTOMER--------------------------------------------------------------------------------------
 				if("New Customer".equals(user)) {
@@ -266,19 +240,23 @@ public class Menu extends JFrame implements MenuInterface{
 				}
 				//-----------------------------------------------------------------------------------------------------------------------
 			}
-		});frameMain.setVisible(true);	
+		}); frameMain.setVisible(true);	
+	}
+
+	private void initFrame() {
+		frameMain = new JFrame();
+		frameMain.setSize(400, 300);
+		frameMain.setLocation(200, 200);
+		frameMain.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) { System.exit(0); }
+		});
 	}
 
 	@Override
 	public void admin()
 	{
 		dispose();
-		frameMain = new JFrame("Administrator Menu");
-		frameMain.setSize(400, 400);
-		frameMain.setLocation(200, 200);
-		frameMain.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) { System.exit(0); }
-		});          
+		initFrame();     
 		frameMain.setVisible(true);
 
 		JPanel deleteCustomerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -406,7 +384,7 @@ public class Menu extends JFrame implements MenuInterface{
 								frameMain.dispose();
 								admin();
 							} else {
-								for(int i = 0; i < customer.getAccounts().size(); i++) {
+								for(int i=0; i < customer.getAccounts().size(); i++) {
 									if(customer.getAccounts().get(i).getNumber() == box.getSelectedItem() ) {
 										acc = customer.getAccounts().get(i);
 									}
