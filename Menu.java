@@ -280,27 +280,21 @@ public class Menu extends JFrame implements MenuInterface{
 							frameMain.dispose();
 							initFrame();          
 							frameMain.setVisible(true);
+							
+							BoxPanelGui boxPanelGui = new BoxPanelGui();
 
-							JComboBox<String> box = new JComboBox<String>();
 							for (int i =0; i < customer.getAccounts().size(); i++) {
-								box.addItem(customer.getAccounts().get(i).getNumber());
+								boxPanelGui.getBox().addItem(customer.getAccounts().get(i).getNumber());
 							}
 
-							box.getSelectedItem();
-
-							JPanel boxPanel = new JPanel();
-							boxPanel.add(box);
-
-							JPanel buttonPanel = new JPanel();
-							JButton continueButton = new JButton("Apply Charge");
-							JButton returnButton = new JButton("Return");
-							buttonPanel.add(continueButton);
-							buttonPanel.add(returnButton);
+							boxPanelGui.getBox().getSelectedItem();
+							boxPanelGui.getBoxPanel().add(boxPanelGui.getBox());
+							boxPanelGui.getButtonPanel().add(boxPanelGui.getContinueButton());
+							boxPanelGui.getBoxPanel().add(boxPanelGui.getReturnButton());
 							Container content = frameMain.getContentPane();
 							content.setLayout(new GridLayout(2, 1));
-
-							content.add(boxPanel);
-							content.add(buttonPanel);
+							content.add(boxPanelGui.getBoxPanel());
+							content.add(boxPanelGui.getButtonPanel());
 
 							if(customer.getAccounts().isEmpty()) {
 								JOptionPane.showMessageDialog(frameMain, "This customer has no accounts! \n The admin must add acounts to this customer."   ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
@@ -308,12 +302,12 @@ public class Menu extends JFrame implements MenuInterface{
 								admin();
 							} else {
 								for(int i=0; i < customer.getAccounts().size(); i++) {
-									if(customer.getAccounts().get(i).getNumber() == box.getSelectedItem() ) {
+									if(customer.getAccounts().get(i).getNumber() == boxPanelGui.getBox().getSelectedItem() ) {
 										acc = customer.getAccounts().get(i);
 									}
 								}
 
-								continueButton.addActionListener(new ActionListener(  ) {
+								boxPanelGui.getContinueButton().addActionListener(new ActionListener(  ) {
 									public void actionPerformed(ActionEvent ae) {
 										String euro = "\u20ac";
 										if(acc instanceof CustomerDepositAccount) {
@@ -332,7 +326,7 @@ public class Menu extends JFrame implements MenuInterface{
 									}		
 								});
 
-								returnButton.addActionListener(new ActionListener(  ) {
+								boxPanelGui.getReturnButton().addActionListener(new ActionListener(  ) {
 									public void actionPerformed(ActionEvent ae) {
 										frameMain.dispose();		
 										menuStart();				
@@ -380,29 +374,26 @@ public class Menu extends JFrame implements MenuInterface{
 							frameMain.dispose();
 							initFrame();       
 							frameMain.setVisible(true);
+							
+							BoxPanelGui boxPanelGui = new BoxPanelGui();
 
-							JComboBox<String> box = new JComboBox<String>();
 							for (int i =0; i < customer.getAccounts().size(); i++) {
-								box.addItem(customer.getAccounts().get(i).getNumber());
+								boxPanelGui.getBox().addItem(customer.getAccounts().get(i).getNumber());
 							}
 
-							box.getSelectedItem();
-
-							JPanel boxPanel = new JPanel();
+							boxPanelGui.getBox().getSelectedItem();
 
 							JLabel label = new JLabel("Select an account to apply interest to:");
-							boxPanel.add(label);
-							boxPanel.add(box);
-							JPanel buttonPanel = new JPanel();
-							JButton continueButton = new JButton("Apply Interest");
-							JButton returnButton = new JButton("Return");
-							buttonPanel.add(continueButton);
-							buttonPanel.add(returnButton);
+							boxPanelGui.getBoxPanel().add(label);
+							boxPanelGui.getBoxPanel().add(boxPanelGui.getBox());
+							boxPanelGui.getContinueButton().setText("Apply Interest");
+							boxPanelGui.getButtonPanel().add(boxPanelGui.getContinueButton());
+							boxPanelGui.getButtonPanel().add(boxPanelGui.getReturnButton());
 							Container content = frameMain.getContentPane();
 							content.setLayout(new GridLayout(2, 1));
 
-							content.add(boxPanel);
-							content.add(buttonPanel);
+							content.add(boxPanelGui.getBoxPanel());
+							content.add(boxPanelGui.getButtonPanel());
 
 							if(customer.getAccounts().isEmpty()) {
 								JOptionPane.showMessageDialog(frameMain, "This customer has no accounts! \n The admin must add acounts to this customer."   ,"Oops!",  JOptionPane.INFORMATION_MESSAGE);
@@ -410,11 +401,11 @@ public class Menu extends JFrame implements MenuInterface{
 								admin();
 							} else {
 								for(int i = 0; i < customer.getAccounts().size(); i++) {
-									if(customer.getAccounts().get(i).getNumber() == box.getSelectedItem() ) {
+									if(customer.getAccounts().get(i).getNumber() == boxPanelGui.getBox().getSelectedItem() ) {
 										acc = customer.getAccounts().get(i);
 									}
 								}
-								continueButton.addActionListener(new ActionListener(  ) {
+								boxPanelGui.getContinueButton().addActionListener(new ActionListener(  ) {
 									public void actionPerformed(ActionEvent ae) {
 										String euro = "\u20ac";
 										double interest = 0;
@@ -436,7 +427,7 @@ public class Menu extends JFrame implements MenuInterface{
 									}		
 								});
 
-								returnButton.addActionListener(new ActionListener() {
+								boxPanelGui.getReturnButton().addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent ae) {
 										frameMain.dispose();		
 										menuStart();				
