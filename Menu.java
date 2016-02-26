@@ -78,8 +78,8 @@ public class Menu extends JFrame implements MenuInterface{
 											firstNameTextField.getText().toString(), dOBTextField.getText().toString(), "ID"+pPSTextField.getText().toString(), password, accounts);
 									customerList.add(customer);
 									JOptionPane.showMessageDialog(frameMain, "CustomerID = " + "ID"+pPSTextField.getText().toString() +"\n Password = " + password  ,"Customer created.",  JOptionPane.INFORMATION_MESSAGE);
-									menuStart();
 									frameMain.dispose();
+									menuStart();
 								}
 							});
 						}
@@ -590,86 +590,50 @@ public class Menu extends JFrame implements MenuInterface{
 					admin();
 				} else {
 
-					JButton first, previous, next, last, cancel;
-					JPanel gridPanel, buttonPanel, cancelPanel;			
-
 					Container content = getContentPane();
-
 					content.setLayout(new BorderLayout());
 
-					buttonPanel = new JPanel();
-					gridPanel = new JPanel(new GridLayout(8, 2));
-					cancelPanel = new JPanel();
+					NavigateGui navigateGui = new NavigateGui();
+					setNavText(navigateGui);
 
-					firstNameLabel = new JLabel("First Name:", SwingConstants.LEFT);
-					surnameLabel = new JLabel("Surname:", SwingConstants.LEFT);
-					pPPSLabel = new JLabel("PPS Number:", SwingConstants.LEFT);
-					dOBLabel = new JLabel("Date of birth", SwingConstants.LEFT);
-					customerIDLabel = new JLabel("CustomerID:", SwingConstants.LEFT);
-					passwordLabel = new JLabel("Password:", SwingConstants.LEFT);
-					firstNameTextField = new JTextField(20);
-					surnameTextField = new JTextField(20);
-					pPSTextField = new JTextField(20);
-					dOBTextField = new JTextField(20);
-					customerIDTextField = new JTextField(20);
-					passwordTextField = new JTextField(20);
+					navigateGui.getFirstNameTextField().setEditable(false);
+					navigateGui.getSurnameTextField().setEditable(false);
+					navigateGui.getpPSTextField().setEditable(false);
+					navigateGui.getdOBTextField().setEditable(false);
+					navigateGui.getCustomerIDTextField().setEditable(false);
+					navigateGui.getPasswordTextField().setEditable(false);
 
-					first = new JButton("First");
-					previous = new JButton("Previous");
-					next = new JButton("Next");
-					last = new JButton("Last");
-					cancel = new JButton("Cancel");
+					navigateGui.getGridPanel().add(navigateGui.getFirstNameLabel());
+					navigateGui.getGridPanel().add(firstNameTextField);
+					navigateGui.getGridPanel().add(surnameLabel);
+					navigateGui.getGridPanel().add(surnameTextField);
+					navigateGui.getGridPanel().add(pPPSLabel);
+					navigateGui.getGridPanel().add(pPSTextField);
+					navigateGui.getGridPanel().add(dOBLabel);
+					navigateGui.getGridPanel().add(dOBTextField);
+					navigateGui.getGridPanel().add(customerIDLabel);
+					navigateGui.getGridPanel().add(customerIDTextField);
+					navigateGui.getGridPanel().add(passwordLabel);
+					navigateGui.getGridPanel().add(passwordTextField);
 
-					firstNameTextField.setText(customerList.get(0).getFirstName());
-					surnameTextField.setText(customerList.get(0).getSurname());
-					pPSTextField.setText(customerList.get(0).getPPS());
-					dOBTextField.setText(customerList.get(0).getDOB());
-					customerIDTextField.setText(customerList.get(0).getCustomerID());
-					passwordTextField.setText(customerList.get(0).getPassword());
+					navigateGui.getButtonPanel().add(navigateGui.getFirst());
+					navigateGui.getButtonPanel().add(navigateGui.getPrevious());
+					navigateGui.getButtonPanel().add(navigateGui.getNext());
+					navigateGui.getButtonPanel().add(navigateGui.getLast());
 
-					firstNameTextField.setEditable(false);
-					surnameTextField.setEditable(false);
-					pPSTextField.setEditable(false);
-					dOBTextField.setEditable(false);
-					customerIDTextField.setEditable(false);
-					passwordTextField.setEditable(false);
+					navigateGui.getCancelPanel().add(navigateGui.getCancel());
 
-					gridPanel.add(firstNameLabel);
-					gridPanel.add(firstNameTextField);
-					gridPanel.add(surnameLabel);
-					gridPanel.add(surnameTextField);
-					gridPanel.add(pPPSLabel);
-					gridPanel.add(pPSTextField);
-					gridPanel.add(dOBLabel);
-					gridPanel.add(dOBTextField);
-					gridPanel.add(customerIDLabel);
-					gridPanel.add(customerIDTextField);
-					gridPanel.add(passwordLabel);
-					gridPanel.add(passwordTextField);
-
-					buttonPanel.add(first);
-					buttonPanel.add(previous);
-					buttonPanel.add(next);
-					buttonPanel.add(last);
-
-					cancelPanel.add(cancel);
-
-					content.add(gridPanel, BorderLayout.NORTH);
-					content.add(buttonPanel, BorderLayout.CENTER);
-					content.add(cancelPanel, BorderLayout.AFTER_LAST_LINE);
-					first.addActionListener(new ActionListener(  ) {
+					content.add(navigateGui.getGridPanel(), BorderLayout.NORTH);
+					content.add(navigateGui.getButtonPanel(), BorderLayout.CENTER);
+					content.add(navigateGui.getCancelPanel(), BorderLayout.AFTER_LAST_LINE);
+					navigateGui.getFirst().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							position = 0;
-							firstNameTextField.setText(customerList.get(0).getFirstName());
-							surnameTextField.setText(customerList.get(0).getSurname());
-							pPSTextField.setText(customerList.get(0).getPPS());
-							dOBTextField.setText(customerList.get(0).getDOB());
-							customerIDTextField.setText(customerList.get(0).getCustomerID());
-							passwordTextField.setText(customerList.get(0).getPassword());				
+							setNavText(navigateGui);				
 						}		
 					});
 
-					previous.addActionListener(new ActionListener(  ) {
+					navigateGui.getPrevious().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							if(position < 1){
 								//don't do anything
@@ -677,46 +641,30 @@ public class Menu extends JFrame implements MenuInterface{
 							else {
 								position = position - 1;
 
-								firstNameTextField.setText(customerList.get(position).getFirstName());
-								surnameTextField.setText(customerList.get(position).getSurname());
-								pPSTextField.setText(customerList.get(position).getPPS());
-								dOBTextField.setText(customerList.get(position).getDOB());
-								customerIDTextField.setText(customerList.get(position).getCustomerID());
-								passwordTextField.setText(customerList.get(position).getPassword());
+								setNavText(navigateGui);
 							}			
 						}		
 					});
 
-					next.addActionListener(new ActionListener(  ) {
+					navigateGui.getNext().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							if(position == customerList.size()-1) {
 								//don't do anything
 							} else {
 								position = position + 1;
-
-								firstNameTextField.setText(customerList.get(position).getFirstName());
-								surnameTextField.setText(customerList.get(position).getSurname());
-								pPSTextField.setText(customerList.get(position).getPPS());
-								dOBTextField.setText(customerList.get(position).getDOB());
-								customerIDTextField.setText(customerList.get(position).getCustomerID());
-								passwordTextField.setText(customerList.get(position).getPassword());
+								setNavText(navigateGui);
 							}		
 						}		
 					});
 
-					last.addActionListener(new ActionListener(  ) {
+					navigateGui.getLast().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							position = customerList.size() - 1;
-							firstNameTextField.setText(customerList.get(position).getFirstName());
-							surnameTextField.setText(customerList.get(position).getSurname());
-							pPSTextField.setText(customerList.get(position).getPPS());
-							dOBTextField.setText(customerList.get(position).getDOB());
-							customerIDTextField.setText(customerList.get(position).getCustomerID());
-							passwordTextField.setText(customerList.get(position).getPassword());								
+							setNavText(navigateGui);								
 						}		
 					});
 
-					cancel.addActionListener(new ActionListener(  ) {
+					navigateGui.getCancel().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {				
 							dispose();
 							admin();
@@ -726,6 +674,15 @@ public class Menu extends JFrame implements MenuInterface{
 					setSize(400, 300);
 					setVisible(true);
 				}		
+			}
+
+			private void setNavText(NavigateGui navigateGui) {
+				navigateGui.getFirstNameTextField().setText(customerList.get(0).getFirstName());
+				navigateGui.getSurnameTextField().setText(customerList.get(0).getSurname());
+				navigateGui.getpPSTextField().setText(customerList.get(0).getPPS());
+				navigateGui.getdOBTextField().setText(customerList.get(0).getDOB());
+				navigateGui.getCustomerIDTextField().setText(customerList.get(0).getCustomerID());
+				navigateGui.getPasswordTextField().setText(customerList.get(0).getPassword());
 			}
 		});
 
