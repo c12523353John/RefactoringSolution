@@ -476,68 +476,40 @@ public class Menu extends JFrame implements MenuInterface{
 
 					frameMain.dispose();
 					frameMain = new JFrame("Administrator Menu");
-					frameMain.setSize(400, 300);
-					frameMain.setLocation(200, 200);
-					frameMain.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent we) { System.exit(0); }
-					});       
+					initFrame();   
+					AdminMenuGui adminMenuGui = new AdminMenuGui();
 
-					firstNameLabel = new JLabel("First Name:", SwingConstants.LEFT);
-					surnameLabel = new JLabel("Surname:", SwingConstants.LEFT);
-					pPPSLabel = new JLabel("PPS Number:", SwingConstants.LEFT);
-					dOBLabel = new JLabel("Date of birth", SwingConstants.LEFT);
-					customerIDLabel = new JLabel("CustomerID:", SwingConstants.LEFT);
-					passwordLabel = new JLabel("Password:", SwingConstants.LEFT);
-					firstNameTextField = new JTextField(20);
-					surnameTextField = new JTextField(20);
-					pPSTextField = new JTextField(20);
-					dOBTextField = new JTextField(20);
-					customerIDTextField = new JTextField(20);
-					passwordTextField = new JTextField(20);
+					adminMenuGui.getTextPanel().add(adminMenuGui.getFirstNameLabel());;
+					adminMenuGui.getTextPanel().add(adminMenuGui.getFirstNameTextField());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getSurnameLabel());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getSurnameTextField());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getpPPSLabel());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getPasswordTextField());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getdOBLabel());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getdOBTextField());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getCustomerIDLabel());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getCustomerIDTextField());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getPasswordLabel());
+					adminMenuGui.getTextPanel().add(adminMenuGui.getPasswordTextField());
+					
+					adminMenuGui.getFirstNameTextField().setText(customer.getFirstName());
+					adminMenuGui.getSurnameTextField().setText(customer.getSurname());
+					adminMenuGui.getpPSTextField().setText(customer.getPPS());
+					adminMenuGui.getdOBTextField().setText(customer.getDOB());
+					adminMenuGui.getCustomerIDTextField().setText(customer.getCustomerID());
+					adminMenuGui.getPasswordTextField().setText(customer.getPassword());	
 
-					JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-					JPanel cancelPanel = new JPanel();
-
-					textPanel.add(firstNameLabel);
-					textPanel.add(firstNameTextField);
-					textPanel.add(surnameLabel);
-					textPanel.add(surnameTextField);
-					textPanel.add(pPPSLabel);
-					textPanel.add(pPSTextField);
-					textPanel.add(dOBLabel);
-					textPanel.add(dOBTextField);
-					textPanel.add(customerIDLabel);
-					textPanel.add(customerIDTextField);
-					textPanel.add(passwordLabel);
-					textPanel.add(passwordTextField);
-
-					firstNameTextField.setText(customer.getFirstName());
-					surnameTextField.setText(customer.getSurname());
-					pPSTextField.setText(customer.getPPS());
-					dOBTextField.setText(customer.getDOB());
-					customerIDTextField.setText(customer.getCustomerID());
-					passwordTextField.setText(customer.getPassword());	
-
-					//JLabel label1 = new JLabel("Edit customer details below. The save");
-
-					JButton saveButton = new JButton("Save");
-					JButton cancelButton = new JButton("Exit");
-
-					cancelPanel.add(cancelButton, BorderLayout.SOUTH);
-					cancelPanel.add(saveButton, BorderLayout.SOUTH);
+					adminMenuGui.getCancelPanel().add(adminMenuGui.getCancelButton(), BorderLayout.SOUTH);
+					adminMenuGui.getCancelPanel().add(adminMenuGui.getSaveButton(), BorderLayout.SOUTH);
 					Container content = frameMain.getContentPane();
 					content.setLayout(new GridLayout(2, 1));
-					content.add(textPanel, BorderLayout.NORTH);
-					content.add(cancelPanel, BorderLayout.SOUTH);
+					content.add(adminMenuGui.getTextPanel(), BorderLayout.NORTH);
+					content.add(adminMenuGui.getCancelPanel(), BorderLayout.SOUTH);
 
-					frameMain.setContentPane(content);
-					frameMain.setSize(340, 350);
-					frameMain.setLocation(200, 200);
-					frameMain.setVisible(true);
-					frameMain.setResizable(false);
+					initFrame();
 
-					saveButton.addActionListener(new ActionListener(  ) {
+					adminMenuGui.getSaveButton().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							customer.setFirstName(firstNameTextField.getText());
 							customer.setSurname(surnameTextField.getText());
@@ -549,7 +521,7 @@ public class Menu extends JFrame implements MenuInterface{
 						}		
 					});
 
-					cancelButton.addActionListener(new ActionListener(  ) {
+					adminMenuGui.getCancelButton().addActionListener(new ActionListener(  ) {
 						public void actionPerformed(ActionEvent ae) {
 							frameMain.dispose();
 							admin();				
@@ -561,12 +533,8 @@ public class Menu extends JFrame implements MenuInterface{
 		newAdminGui.getSummaryButton().addActionListener(new ActionListener(  ) {
 			public void actionPerformed(ActionEvent ae) {
 				frameMain.dispose();
-				frameMain = new JFrame("Summary of Transactions");
-				frameMain.setSize(400, 700);
-				frameMain.setLocation(200, 200);
-				frameMain.addWindowListener(new WindowAdapter() {
-					public void windowClosing(WindowEvent we) { System.exit(0); }
-				});          
+				initFrame();
+				frameMain.setTitle("Summary of Transactions");
 				frameMain.setVisible(true);
 
 				JLabel label1 = new JLabel("Summary of all transactions: ");
